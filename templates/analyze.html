@@ -1,0 +1,92 @@
+{% extends "index.html" %} {% block content %}
+
+<!-- 🔥 HERO SECTION (same as your previous) -->
+<div class="bg-[#020617] text-center py-10 border-b border-gray-800">
+    <h1 class="text-3xl font-bold text-white">
+        VeriNews <span class="text-green-400">AI</span>
+    </h1>
+
+    <p class="text-gray-400 mt-2">Analyze News with AI</p>
+
+    <!-- NAV -->
+    <div class="flex justify-center gap-6 mt-6 text-sm">
+        <a href="/dashboard" class="hover:text-green-400">🏠 Dashboard</a>
+        <a href="/analyze" class="text-green-400">🔍 Analyze</a>
+        <a href="/history" class="hover:text-green-400">🕘 History</a>
+        <a href="/models" class="hover:text-green-400">📦 Models</a>
+        <a href="/reports" class="hover:text-green-400">📊 Reports</a>
+    </div>
+</div>
+
+<!-- 🔥 ANALYZE SECTION -->
+<div class="max-w-4xl mx-auto mt-10">
+    <div class="bg-[#0f172a] p-6 rounded-xl border border-gray-800">
+        <h2 class="text-xl font-semibold mb-4 text-white">
+            📰 News Analysis Input
+        </h2>
+
+        <form method="POST">
+            <!-- URL -->
+            <input
+                type="text"
+                name="url"
+                placeholder="🔗 Paste news article URL (optional)"
+                class="w-full p-3 mb-3 rounded bg-gray-800 border border-gray-700 text-white"
+            />
+
+            <!-- MODEL -->
+            <select
+                name="model"
+                class="w-full p-3 rounded bg-gray-900 border border-gray-700 text-white mb-3"
+            >
+                <option value="logistic">Logistic Regression</option>
+                <option value="naive_bayes">Naive Bayes</option>
+                <option value="bert">BERT</option>
+            </select>
+
+            <!-- TEXT -->
+            <textarea
+                name="news"
+                class="w-full p-4 rounded bg-gray-900 border border-gray-700 text-white mb-4"
+                placeholder="Paste news here..."
+            ></textarea>
+
+            <!-- BUTTON -->
+            <button
+                type="submit"
+                class="bg-green-500 text-black px-4 py-3 rounded w-full font-bold hover:scale-105 transition"
+            >
+                🚀 Analyze News
+            </button>
+        </form>
+    </div>
+</div>
+
+<!-- 🔥 RESULT -->
+{% if result %}
+
+<div class="max-w-4xl mx-auto mt-8">
+    <div class="bg-[#0f172a] p-6 rounded-xl border border-gray-800 text-center">
+        <h2 class="text-lg mb-3">📊 Analysis Result</h2>
+
+        <span
+            class="px-4 py-2 rounded-full text-white font-bold {% if result.label == 'REAL' %} bg-green-500 {% else %} bg-red-500 {% endif %}"
+        >
+            {{ result.label }} NEWS
+        </span>
+
+        <p class="mt-3 text-gray-300">
+            Confidence:
+            <span class="text-green-400">{{ result.confidence }}%</span>
+        </p>
+    </div>
+</div>
+
+{% endif %}
+
+<!-- 🔥 FOOTER -->
+<div class="text-center text-gray-500 mt-10 mb-6 text-sm">
+    ⚖️ Ethical AI Disclaimer: Predictions are probabilistic, not facts.
+</div>
+
+{% endblock %}

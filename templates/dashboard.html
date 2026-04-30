@@ -1,0 +1,372 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Dashboard - VeriNews AI</title>
+
+        <script src="https://cdn.tailwindcss.com"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+        <style>
+            .glass {
+                background: rgba(31, 41, 55, 0.5);
+                backdrop-filter: blur(12px);
+            }
+            .glow {
+                box-shadow: 0 0 25px rgba(34, 197, 94, 0.15);
+            }
+        </style>
+    </head>
+
+    <body
+        class="bg-gradient-to-br from-gray-900 via-black to-gray-900 text-white"
+    >
+        <div class="flex">
+            <!-- ================= SIDEBAR ================= -->
+
+            <div
+                class="w-64 min-h-screen bg-[#020617] border-r border-gray-800 p-6"
+            >
+                <h2 class="text-xl font-bold text-green-400 mb-8">
+                    VeriNews AI
+                </h2>
+
+                <nav class="flex flex-col gap-3 text-sm">
+                    <!-- Dashboard -->
+                    <a
+                        href="/dashboard"
+                        class="flex items-center gap-3 px-4 py-2 rounded-lg bg-gray-800 text-green-400 font-semibold shadow-md"
+                    >
+                        🏠 Dashboard
+                    </a>
+
+                    <!-- Analyze -->
+                    <a
+                        href="/analyze"
+                        class="flex items-center gap-3 px-4 py-2 rounded-lg text-gray-300 hover:bg-gray-800 hover:text-white transition"
+                    >
+                        🔍 Analyze
+                    </a>
+
+                    <!-- History -->
+                    <a
+                        href="/history"
+                        class="flex items-center gap-3 px-4 py-2 rounded-lg text-gray-300 hover:bg-gray-800 hover:text-white transition"
+                    >
+                        🕘 History
+                    </a>
+
+                    <!-- Models -->
+                    <a
+                        href="/models"
+                        class="flex items-center gap-3 px-4 py-2 rounded-lg text-gray-300 hover:bg-gray-800 hover:text-white transition"
+                    >
+                        📦 Models
+                    </a>
+
+                    <!-- Reports -->
+                    <a
+                        href="/reports"
+                        class="flex items-center gap-3 px-4 py-2 rounded-lg text-gray-300 hover:bg-gray-800 hover:text-white transition"
+                    >
+                        📊 Reports
+                    </a>
+
+                    <!-- Logout -->
+                    <a
+                        href="/logout"
+                        class="flex items-center gap-3 px-4 py-2 rounded-lg text-red-400 hover:bg-red-500 hover:text-white transition mt-6"
+                    >
+                        🚪 Logout
+                    </a>
+                </nav>
+            </div>
+
+            <!-- ================= MAIN ================= -->
+            <div class="flex-1 p-8">
+                <!-- ===== USER PROFILE TOP BAR ===== -->
+                <div class="flex justify-between items-center mb-6">
+                    <div>
+                        <h2 class="text-xl font-semibold">
+                            Welcome 👋 {{ current_user.first_name }}
+                        </h2>
+                        <p class="text-gray-400 text-sm">
+                            {{ current_user.email }}
+                        </p>
+                    </div>
+
+                    <!-- Right side -->
+                    <div class="flex items-center gap-4">
+                        <!-- Notification -->
+                        <span class="text-xl text-gray-400">🔔</span>
+
+                        <!-- Avatar -->
+                        <div
+                            class="w-10 h-10 bg-green-500 rounded-full flex items-center justify-center text-black font-bold"
+                        >
+                            {{ current_user.first_name[0] }}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ===== HERO SECTION ===== -->
+                <div class="glass rounded-2xl p-8 mb-8 text-center glow">
+                    <p class="text-green-400 text-sm mb-2">
+                        ● AI POWERED • REAL-TIME • EXPLAINABLE
+                    </p>
+
+                    <h1 class="text-4xl font-bold mb-2">
+                        VeriNews <span class="text-green-400">AI</span>
+                    </h1>
+
+                    <p class="text-gray-400 mb-6">
+                        Explainable Fake News Detection & Verification System
+                    </p>
+
+                    <div class="flex flex-wrap justify-center gap-3 text-sm">
+                        <span class="px-4 py-1 bg-gray-800 rounded-full"
+                            >🤖 ML + BERT Models</span
+                        >
+                        <span class="px-4 py-1 bg-gray-800 rounded-full"
+                            >📊 {{ accuracy }}% Accuracy</span
+                        >
+                        <span class="px-4 py-1 bg-gray-800 rounded-full"
+                            >⚡ Real-time Analysis</span
+                        >
+                        <span class="px-4 py-1 bg-gray-800 rounded-full"
+                            >🧠 Explainable AI</span
+                        >
+                        <span class="px-4 py-1 bg-gray-800 rounded-full"
+                            >🔒 Secure</span
+                        >
+                    </div>
+                </div>
+
+                <!-- ===== STATS ===== -->
+                <div class="grid grid-cols-4 gap-6 mb-8">
+                    <!-- NEWS -->
+                    <div class="glass p-5 rounded-xl glow">
+                        <p class="text-gray-400 text-sm">News Analyzed</p>
+                        <p class="text-2xl font-bold">{{ total }}</p>
+                        <p class="text-green-400 text-xs mt-1">
+                            ↑ +12% this week
+                        </p>
+                    </div>
+
+                    <!-- ACCURACY -->
+                    <div class="glass p-5 rounded-xl glow">
+                        <p class="text-green-400 text-sm">Accuracy</p>
+                        <p class="text-2xl font-bold">{{ accuracy }}%</p>
+                        <p class="text-green-400 text-xs mt-1">↑ +2.3%</p>
+                    </div>
+
+                    <!-- FAKE -->
+                    <div class="glass p-5 rounded-xl glow">
+                        <p class="text-red-400 text-sm">Fake Detected</p>
+                        <p class="text-2xl font-bold">{{ fake }}</p>
+                        <p class="text-red-400 text-xs mt-1">↑ +5 alerts</p>
+                    </div>
+
+                    <!-- REAL -->
+                    <div class="glass p-5 rounded-xl glow">
+                        <p class="text-blue-400 text-sm">Real News</p>
+                        <p class="text-2xl font-bold">{{ real }}</p>
+                        <p class="text-green-400 text-xs mt-1">↑ Stable</p>
+                    </div>
+                </div>
+
+                <!-- ===== ANALYSIS GRAPH ===== -->
+                <div class="glass p-6 rounded-xl glow mb-8">
+                    <h3 class="text-lg font-semibold mb-4">
+                        📈 Analysis Overview
+                    </h3>
+
+                    <canvas id="analysisChart" height="100"></canvas>
+                </div>
+
+                <!-- ===== GRID ===== -->
+                <div class="grid grid-cols-2 gap-6">
+                    <!-- MODEL PERFORMANCE -->
+                    <div class="glass p-6 rounded-xl glow">
+                        <h3 class="text-lg font-semibold mb-4">
+                            ⚡ Model Performance
+                        </h3>
+
+                        <div class="space-y-4">
+                            <div>
+                                <p>BERT - 94%</p>
+                                <div class="bg-gray-700 h-2 rounded">
+                                    <div
+                                        class="bg-purple-500 h-2 rounded"
+                                        style="width: 94%"
+                                    ></div>
+                                </div>
+                            </div>
+
+                            <div>
+                                <p>Logistic - 91%</p>
+                                <div class="bg-gray-700 h-2 rounded">
+                                    <div
+                                        class="bg-green-400 h-2 rounded"
+                                        style="width: 91%"
+                                    ></div>
+                                </div>
+                            </div>
+
+                            <div>
+                                <p>Naive Bayes - 87%</p>
+                                <div class="bg-gray-700 h-2 rounded">
+                                    <div
+                                        class="bg-blue-400 h-2 rounded"
+                                        style="width: 87%"
+                                    ></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- BEST MODEL -->
+                    <div class="glass p-6 rounded-xl glow text-center">
+                        <h3 class="text-lg font-semibold mb-4">
+                            🏆 Best Model
+                        </h3>
+
+                        <p class="text-3xl font-bold text-purple-400">BERT</p>
+                        <p class="text-gray-400 mt-2">
+                            Highest accuracy & performance
+                        </p>
+                    </div>
+
+                    <!-- RECENT ACTIVITY -->
+                    <div class="glass p-6 rounded-xl glow">
+                        <h3 class="text-lg font-semibold mb-4">
+                            🧾 Recent Activity
+                        </h3>
+
+                        {% for item in recent %}
+                        <div
+                            class="flex justify-between border-b border-gray-700 py-2"
+                        >
+                            <span class="text-gray-300"
+                                >{{ item.text[:40] }}...</span
+                            >
+
+                            <span
+                                class="{% if 'REAL' in item.result %}text-green-400{% else %}text-red-400{% endif %}"
+                            >
+                                {{ item.result }}
+                            </span>
+                        </div>
+                        {% endfor %}
+                    </div>
+
+                    <!-- AI INSIGHT -->
+                    <div class="glass p-6 rounded-xl glow">
+                        <h3 class="text-lg font-semibold mb-4">
+                            🧠 AI Insight
+                        </h3>
+
+                        <p class="text-gray-300">
+                            {% if real > fake %} Most analyzed news is
+                            <span class="text-green-400 font-semibold"
+                                >REAL</span
+                            >. System is stable and reliable. {% else %} High
+                            <span class="text-red-400 font-semibold"
+                                >FAKE news</span
+                            >
+                            detected. Be cautious with sources. {% endif %}
+                        </p>
+                    </div>
+                </div>
+
+                <!-- ===== TOP FAKE NEWS CATEGORIES ===== -->
+                <div class="glass p-6 rounded-xl glow mt-8">
+                    <h3 class="text-lg font-semibold mb-6 text-center">
+                        🚨 Top Fake News Categories
+                    </h3>
+
+                    <div class="grid grid-cols-5 gap-6 text-center">
+                        <div
+                            class="p-5 rounded-xl bg-gradient-to-r from-red-500/20 to-red-600/20 hover:scale-105 transition"
+                        >
+                            <p class="text-red-400 font-bold text-lg">
+                                Politics
+                            </p>
+                            <p class="text-2xl font-bold mt-2">32%</p>
+                        </div>
+
+                        <div
+                            class="p-5 rounded-xl bg-gradient-to-r from-yellow-500/20 to-orange-400/20 hover:scale-105 transition"
+                        >
+                            <p class="text-yellow-400 font-bold text-lg">
+                                Entertainment
+                            </p>
+                            <p class="text-2xl font-bold mt-2">21%</p>
+                        </div>
+
+                        <div
+                            class="p-5 rounded-xl bg-gradient-to-r from-blue-500/20 to-cyan-400/20 hover:scale-105 transition"
+                        >
+                            <p class="text-blue-400 font-bold text-lg">
+                                Health
+                            </p>
+                            <p class="text-2xl font-bold mt-2">18%</p>
+                        </div>
+
+                        <div
+                            class="p-5 rounded-xl bg-gradient-to-r from-green-500/20 to-emerald-400/20 hover:scale-105 transition"
+                        >
+                            <p class="text-green-400 font-bold text-lg">
+                                Technology
+                            </p>
+                            <p class="text-2xl font-bold mt-2">14%</p>
+                        </div>
+
+                        <div
+                            class="p-5 rounded-xl bg-gradient-to-r from-purple-500/20 to-pink-400/20 hover:scale-105 transition"
+                        >
+                            <p class="text-purple-400 font-bold text-lg">
+                                Others
+                            </p>
+                            <p class="text-2xl font-bold mt-2">13%</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            const ctx = document.getElementById("analysisChart");
+
+            new Chart(ctx, {
+                type: "line",
+                data: {
+                    labels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+                    datasets: [
+                        {
+                            label: "Real News",
+                            data: [20, 35, 40, 30, 55, 45, 25],
+                            borderColor: "#22c55e",
+                            tension: 0.4,
+                        },
+                        {
+                            label: "Fake News",
+                            data: [10, 15, 20, 25, 30, 40, 50],
+                            borderColor: "#ef4444",
+                            tension: 0.4,
+                        },
+                    ],
+                },
+                options: {
+                    plugins: {
+                        legend: { labels: { color: "#fff" } },
+                    },
+                    scales: {
+                        x: { ticks: { color: "#aaa" } },
+                        y: { ticks: { color: "#aaa" } },
+                    },
+                },
+            });
+        </script>
+    </body>
+</html>
