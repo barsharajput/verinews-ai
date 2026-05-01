@@ -10,7 +10,7 @@ pandas==2.2.2
 numpy==1.26.4
 joblib==1.4.2
 transformers==4.41.2
-torch==2.2.2+cpu
+torch==2.2.2
 accelerate==0.30.1
 requests==2.31.0
 Werkzeug==3.0.3
