@@ -8,3 +8,4 @@ scikit-learn==1.4.2
 nltk==3.8.1
 requests==2.31.0
 beautifulsoup4==4.12.3
+deep-translator==1.11.4
