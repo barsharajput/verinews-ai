@@ -1,4 +1,5 @@
-# 🔍 VeriNews AI — Intelligent Fake News Detection System
+# 🔍 VeriNews AI — Explainable Fake News Detection and Verification System
+
 
 <div align="center">
 
